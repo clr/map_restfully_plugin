@@ -47,71 +47,62 @@ This will automatically provide actions for GETS, POSTS, PUTS, DELETES, GET, POS
 
 Using the above example, we have the following.  [Editor's note: See the wiki home page for a legible example of this table: "http://github.com/progmatica/map_restfully/wikis/home":http://github.com/progmatica/map_restfully/wikis/home  as something is buggy with github's textile parser here.]
 
-	<table>
-		<tr>
-			<th>convenience helper</th>
-			<th>example paths</th>
-
-			<th>controller method</th>
-			<th>prepopulated instance variable</th>
-		</tr>
-		<tr>
-			<td>nap_path( @nap ), get_nap_path( @nap )</td>
-			<td>nap, nap.html, nap/1, nap/1.html</td>
-			<td>NapsController#get</td>
-
-			<td>@nap</td>
-		</tr>
-		<tr>
-			<td>nap_path( @nap, :method =&gt; :post ), post_nap_path( @nap )</td>
-			<td>nap, nap.html, nap/1, nap/1.html</td>
-			<td>NapsController#post</td>
-
-			<td>@nap</td>
-		</tr>
-		<tr>
-			<td>nap_path( @nap, :method =&gt; :put ), put_nap_path( @nap )</td>
-			<td>nap, nap.html, nap/1, nap/1.html</td>
-			<td>NapsController#put</td>
-
-			<td>@nap</td>
-		</tr>
-		<tr>
-			<td>nap_path( @nap, :method =&gt; :delete ), delete_nap_path( @nap )</td>
-			<td>nap, nap.html, nap/1, nap/1.html</td>
-			<td>NapsController#delete</td>
-
-			<td>@nap</td>
-		</tr>
-		<tr>
-			<td>naps_path( @naps ), get_naps_path( @naps )</td>
-			<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
-			<td>NapsController#gets</td>
-			<td>@naps</td>
-
-		</tr>
-		<tr>
-			<td>naps_path( @nap, :method =&gt; :post ), post_nap_path( @naps )</td>
-			<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
-			<td>NapsController#posts</td>
-			<td> @naps</td>
-
-		</tr>
-		<tr>
-			<td>naps_path( @nap, :method =&gt; :put ), put_nap_path( @naps )</td>
-			<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
-			<td>NapsController#puts</td>
-			<td>@naps</td>
-
-		</tr>
-		<tr>
-			<td>naps_path( @nap, :method =&gt; :delete ), delete_nap_path( @naps )</td>
-			<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
-			<td>NapsController#deletes </td>
-			<td>@naps</td>
-
-		</tr>
-	</table>
+<table>
+	<tr>
+		<th>convenience helper</th>
+		<th>example paths</th>
+		<th>controller method</th>
+		<th>prepopulated instance variable</th>
+	</tr>
+	<tr>
+		<td>nap_path( @nap ), get_nap_path( @nap )</td>
+		<td>nap, nap.html, nap/1, nap/1.html</td>
+		<td>NapsController#get</td>
+		<td>@nap</td>
+	</tr>
+	<tr>
+		<td>nap_path( @nap, :method =&gt; :post ), post_nap_path( @nap )</td>
+		<td>nap, nap.html, nap/1, nap/1.html</td>
+		<td>NapsController#post</td>
+		<td>@nap</td>
+	</tr>
+	<tr>
+		<td>nap_path( @nap, :method =&gt; :put ), put_nap_path( @nap )</td>
+		<td>nap, nap.html, nap/1, nap/1.html</td>
+		<td>NapsController#put</td>
+		<td>@nap</td>
+	</tr>
+	<tr>
+		<td>nap_path( @nap, :method =&gt; :delete ), delete_nap_path( @nap )</td>
+		<td>nap, nap.html, nap/1, nap/1.html</td>
+		<td>NapsController#delete</td>
+		<td>@nap</td>
+	</tr>
+	<tr>
+		<td>naps_path( @naps ), get_naps_path( @naps )</td>
+		<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
+		<td>NapsController#gets</td>
+		<td>@naps</td>
+	</tr>
+	<tr>
+		<td>naps_path( @nap, :method =&gt; :post ), post_nap_path( @naps )</td>
+		<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
+		<td>NapsController#posts</td>
+		<td>@naps</td>
+	</tr>
+	<tr>
+		<td>naps_path( @nap, :method =&gt; :put ), put_nap_path( @naps )</td>
+		<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
+		<td>NapsController#puts</td>
+		<td>@naps</td>
+	</tr>
+	<tr>
+		<td>naps_path( @nap, :method =&gt; :delete ), delete_nap_path( @naps )</td>
+		<td>naps, naps.html, naps/1,2,3, naps/1,2,3.html</td>
+		<td>NapsController#deletes </td>
+		<td>@naps</td>
+	</tr>
+</table>
 
 
 Note the 's' on the end of the controller method names in the plural case.  The above are only examples.  The paths take the usual formats .xml, .js, etc.  The id number in the singular case and the ids in the plural case are optional.  The number 0 in the singular case will return a new ActiveRecord object for the instance variable.
