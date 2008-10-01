@@ -6,7 +6,7 @@ h1. INSTALLATION
 
 <pre>
 <code>
-#> ruby script/plugin install git://github.com/progmatica/map_restfully.git
+#> ruby script/plugin install git://github.com/clr/map_restfully.git
 </code>
 </pre>
 
