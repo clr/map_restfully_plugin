@@ -16,5 +16,5 @@ ActionController::Routing::Routes.draw do |map|
 end
 
 See the README (vendor/plugins/map_restfully/README) for more details
-or visit: http://github.com/progmatica/map_restfully/tree/master
+or visit: http://github.com/clr/map_restfully/tree/master
 SETUP

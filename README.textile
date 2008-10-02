@@ -148,4 +148,30 @@ You can distinguish the editable representation of a resource either by the subj
 
 In typical ActiveRecord implementations, the id starts with the integer 1 and increments with each record created.  We use the id number 0 to represent a new ActiveRecord instance.  Using that convention, we can obviate the separate view and controller method for New.
 
+h1. TURN OFF SESSION
+
+If you adhere to strick RESTful principles, you can separate your application controller by the subject of the request: "I get the book..." or "Anonymous gets the book..."  In this example, you can see that the former case has the subject "I," which is sometimes stored in the session cookie.  You will get a significant performance boost by turning sessions off.  If you cannot identify the subject via a URL parameter, then you are probably dealing with an issue of authentication.  Consider using HTTP authentication.  This will populate your parameters with a 'user' and 'password' on every request, which is automatically handled by the client web browser.
+
+To turn off sessions, change the following default line in config/environment.rb from:
+<pre>
+<code>
+  config.action_controller.session = {
+    :session_key => '_dummy_session',
+    :secret      => 'someveryveryverylooooooooongrandomstring'
+  }
+</code>
+</pre>
+to:
+<pre>
+<code>
+  config.action_controller.session = false
+</code>
+</pre>
+And remove the following line in 'app/controllers/application.rb':
+<pre>
+<code>
+  protect_from_forgery #:secret => 'somerandomstring'
+</code>
+</pre>
+
 

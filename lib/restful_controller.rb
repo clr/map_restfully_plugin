@@ -16,56 +16,19 @@ module RestfulController
 #
 # Instance Methods.
 #
+# All methods return a status code of 405 by default, which is "Method not allowed."  This
+# requires that all actions be explicitly defined in the controllers, which is better for 
+# security, even if it is as simple as 'def gets; end'
+#
 
-  # Plural methods.
-  def gets
-    respond_to do |format|
-      format.html { render :text => "Gets called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
+  [ :gets, :posts, :puts, :deletes, :get, :post, :put, :delete ].each do |action|
+    define_method action do
+      respond_to do |format|
+        format.html { render :text => "<html><body><h1>405: Method not allowed.</h1><p>#{ action.to_s.capitalize } called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }</p><p>You must explicitly define this action in your controller if you wish to use it.</p></body></html>", :status => 405 }
+      end
     end
   end
 
-  def posts
-    respond_to do |format|
-      format.html { render :text => "Posts called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
-
-  def puts
-    respond_to do |format|
-      format.html { render :text => "Puts called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
-
-  def deletes
-    respond_to do |format|
-      format.html { render :text => "Deletes called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
-
-  # Singular methods.
-  def get
-    respond_to do |format|
-      format.html { render :text => "Get called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
-
-  def post
-    respond_to do |format|
-      format.html { render :text => "Post called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
-
-  def put
-    respond_to do |format|
-      format.html { render :text => "Put called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
-
-  def delete
-    respond_to do |format|
-      format.html { render :text => "Delete called from '#{ self.class.name }' with: #{ self.instance_variables.inspect }" }
-    end
-  end
 
   def prepare_restful_action
     case params[:grammatical_number]
