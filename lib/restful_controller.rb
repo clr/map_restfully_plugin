@@ -20,7 +20,10 @@ module RestfulController
 # requires that all actions be explicitly defined in the controllers, which is better for 
 # security, even if it is as simple as 'def gets; end'
 #
-
+  def initialize
+    @prepopulate = true
+  end
+  
   [ :gets, :posts, :puts, :deletes, :get, :post, :put, :delete ].each do |action|
     define_method action do
       respond_to do |format|
@@ -29,7 +32,21 @@ module RestfulController
     end
   end
 
-
+  # This can be called in the controller definition to override the automatic prepopulation
+  # or prepopulate a few instances at once.
+  def prepopulate( args* )
+    case args.class.name
+    when 'True'
+      @prepopulate = true
+    when 'String', 'Symbol'
+      @prepopulate = args
+    when 'Array'
+      @prepopulate = args.flatten.uniq.compact
+    else
+      @prepopulate = false
+    end
+  end
+  
   def prepare_restful_action
     case params[:grammatical_number]
     when 'plural'
@@ -40,9 +57,23 @@ module RestfulController
   end
 
   def prepare_restful_instance_variables
-    resource_class_name = params[:controller].to_s.singularize.camelize
-#    if ::Object.const_defined?( resource_class_name )
-    # Check for availability of matching model class.  This won't always work, because
+    case @prepopulate.class.name
+    when 'True'
+      prepopulate_instance_of params[:controller].to_s.singularize.camelize
+    when 'String', 'Symbol'
+      prepopulate_instance_of @prepopulate.to_s.singularize.camelize
+    when 'Array'
+      @prepopulate.each do |prepopulatee|
+        prepopulate_instance_of prepopulatee.to_s.singularize.camelize if ( prepopulatee.is_a?( String ) || prepopulatee.is_a?( Symbol ) )
+      end
+    else
+      return
+    end
+  end
+  
+  def prepopulate_instance_of( resource_class_name )
+    # A check for availability of matching model class like ::Object.const_defined?( 
+    # resource_class_name ) won't always work, because
     # the model class may not have been loaded yet if this is our first time using
     # that model; hence, the rescue below.
     begin
@@ -57,7 +88,7 @@ module RestfulController
         end 
       when 'singular'
         instance_name = ( "@" + params[:controller].to_s.singularize ).to_sym
-        if params[:id].to_i == 0
+        if params[:id].nil? || ( params[:id].to_i == 0 )
           instance_variable_set instance_name, resource_class.new 
         else
           instance_variable_set instance_name, resource_class.find( params[:id] ) if params[:id]
