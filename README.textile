@@ -105,7 +105,19 @@ Using the above example, we have the following.  [Editor's note: See the wiki ho
 </table>
 
 
-Note the 's' on the end of the controller method names in the plural case.  The above are only examples.  The paths take the usual formats .xml, .js, etc.  The id number in the singular case and the ids in the plural case are optional.  The number 0 in the singular case will return a new ActiveRecord object for the instance variable.
+Note the 's' on the end of the controller method names in the plural case.  The above are only examples.  The paths take the usual formats .xml, .js, etc.  The id number in the singular case and the ids in the plural case are optional.  The number 0 or no number at all in the singular case will return a new ActiveRecord object for the instance variable.
+
+
+As a default, RestfulController will attempt to prepopulate the instance variable that corresponds to your controller.  You can disable this by adding 'prepopulate false' to your controller, like so:
+<pre>
+<code>
+class ApplicationController < ActionController::Base
+  include RestfulController
+<em>  prepopulate false</em>
+end
+</code>
+</pre>
+
 
 h1. RATIONALE
 

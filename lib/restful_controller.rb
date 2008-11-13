@@ -11,6 +11,14 @@ module RestfulController
 # Class Methods.
 #
   module ClassMethods
+
+    # `prepopulate false` can be called in the controller definition to override the automatic prepopulation.
+    def prepopulate( what )
+      if ( what == false )
+        define_method :prepare_restful_instance_variables do; end
+      end
+    end
+  
   end
 
 #
@@ -20,10 +28,6 @@ module RestfulController
 # requires that all actions be explicitly defined in the controllers, which is better for 
 # security, even if it is as simple as 'def gets; end'
 #
-  def initialize
-    @prepopulate = true
-  end
-  
   [ :gets, :posts, :puts, :deletes, :get, :post, :put, :delete ].each do |action|
     define_method action do
       respond_to do |format|
@@ -32,21 +36,6 @@ module RestfulController
     end
   end
 
-  # This can be called in the controller definition to override the automatic prepopulation
-  # or prepopulate a few instances at once.
-  def prepopulate( args* )
-    case args.class.name
-    when 'True'
-      @prepopulate = true
-    when 'String', 'Symbol'
-      @prepopulate = args
-    when 'Array'
-      @prepopulate = args.flatten.uniq.compact
-    else
-      @prepopulate = false
-    end
-  end
-  
   def prepare_restful_action
     case params[:grammatical_number]
     when 'plural'
@@ -57,18 +46,7 @@ module RestfulController
   end
 
   def prepare_restful_instance_variables
-    case @prepopulate.class.name
-    when 'True'
-      prepopulate_instance_of params[:controller].to_s.singularize.camelize
-    when 'String', 'Symbol'
-      prepopulate_instance_of @prepopulate.to_s.singularize.camelize
-    when 'Array'
-      @prepopulate.each do |prepopulatee|
-        prepopulate_instance_of prepopulatee.to_s.singularize.camelize if ( prepopulatee.is_a?( String ) || prepopulatee.is_a?( Symbol ) )
-      end
-    else
-      return
-    end
+    prepopulate_instance_of params[:controller].to_s.singularize.camelize
   end
   
   def prepopulate_instance_of( resource_class_name )
